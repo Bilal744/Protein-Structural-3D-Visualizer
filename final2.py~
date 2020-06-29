@@ -1,0 +1,499 @@
+import Tkinter
+import Tkinter as tk
+from Tkinter import * 
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+import numpy as np
+
+from mpl_toolkits.mplot3d import Axes3D 
+import tkMessageBox as msg
+import matplotlib.pyplot as plt
+import pickle
+import Image
+
+from glutamic_acid import *
+from mergerGG import *
+from alanine import *
+from arginine import *
+from asparagine import *
+from aspartic_acid import *
+from cysteine import *
+from glutamine import *
+from glycine import *
+from histidine import *
+from isoleucine import *
+from leucine import *
+from lysine import *
+from methionine import *
+from phenylalanine import *
+from proline import *
+from serine import *
+from threonine import *
+from tryosine import *
+from tryptophan import *
+from valine import *
+##############################Dynamic Path###################
+
+import os, sys, inspect
+def execution_path(filename):
+  return os.path.join(os.path.dirname(inspect.getfile(sys._getframe(1))), filename)
+
+##################################################################
+class Root(Tk):
+   def __init__(self):
+       Tk.__init__(self)
+       self.title("Protein Structural 3D Visualizer")
+       #self.minsize(630,600)
+       #self.geometry('630x600')
+       self.configure(background = 'white')
+       self.matplotCanvas()
+       self.resizable(False,False)
+       
+
+
+   def matplotCanvas(self):
+
+       #def ClearLabel():
+	   #label_name.grid_forget()
+
+       def ShowName():
+	        value=txt_name.get()
+		if value=="1rgs":
+			
+			Store_all = []
+			with open(execution_path('1rgs.cif')) as protein:
+				for lines in protein:
+					if "ATOM   " in lines:
+                    				lines = lines.split()
+                    				Store_all.append(map(float, lines[10:13])) 
+			x,y,z = zip(*Store_all)
+                        fig = Figure(figsize=(10,6), dpi=100,facecolor='black')
+                        canvas = FigureCanvasTkAgg(fig, self)
+      			canvas.draw()
+       			plt = fig.add_subplot(111, projection="3d")
+			plt.set_axis_bgcolor("black")
+			plt.plot(x,y,z) 
+			#plt.legend(['Example legend'],loc='upper')
+                        #plt.show()
+			plt.axis("off")   
+
+       			toolbarFrame = Frame(self)
+       			toolbarFrame.grid(row=6,column=7)
+       			toolbar = NavigationToolbar2TkAgg(canvas, toolbarFrame)
+       			canvas.get_tk_widget().grid(row=4,column=7) 
+		elif value=="RRRRGAISAEVYTEEDAASYVRKVIPKDYKTMAALAKAIEKNVLFSHLDDNERSDIFDAMFPVSFIAGETVIQQGDEGDN":
+			Store_all = []
+			with open(execution_path('1rgs.cif')) as protein:
+				for lines in protein:
+					if "ATOM   " in lines:
+                    				lines = lines.split()
+                    				Store_all.append(map(float, lines[10:13])) 
+			x,y,z = zip(*Store_all)
+                        fig = Figure(figsize=(10,6), dpi=100,facecolor='black')
+                        canvas = FigureCanvasTkAgg(fig, self)
+      			canvas.draw()
+       			plt = fig.add_subplot(111, projection="3d")
+			plt.set_axis_bgcolor("black")
+			plt.plot(x,y,z) 
+                        #plt.show()
+			plt.axis("off")   
+
+       			toolbarFrame = Frame(self)
+       			toolbarFrame.grid(row=6,column=7)
+       			toolbar = NavigationToolbar2TkAgg(canvas, toolbarFrame)
+       			canvas.get_tk_widget().grid(row=4,column=7) 
+	
+  
+		elif value=="delete all":
+			fig = Figure(figsize=(10,6), dpi=100,facecolor='black')
+       			canvas = FigureCanvasTkAgg(fig, self)
+
+       			canvas.draw()
+       			ax = fig.add_subplot(111, projection="3d")
+			ax.set_axis_bgcolor("black")
+			 
+       			ax.axis("off")   
+
+       			toolbarFrame = Frame(self)
+       			toolbarFrame.grid(row=6,column=7)
+       			toolbar = NavigationToolbar2TkAgg(canvas, toolbarFrame)
+       			canvas.get_tk_widget().grid(row=4,column=7) 
+
+		elif value=="glycine":
+			glycine(self)
+		elif value=="alanine":
+			alanine(self)
+		elif value=="arginine":
+			arginine(self)
+		elif value=="asparagine":
+			asparagine(self)
+		elif value=="aspartic acid":
+			aspartic_acid(self)
+		elif value=="cysteine":
+			cysteine(self)
+		elif value=="glutamic acid":
+			glutamic_acid(self)
+		elif value=="glutamine":
+			glutamine(self)
+		elif value=="histidine":
+			histidine(self)
+		elif value=="isoleucine":
+			isoleucine(self)
+		elif value=="leucine":
+			leucine(self)
+		elif value=="lysine":
+			lysine(self)
+		elif value=="methionine":
+			methionine(self)
+		elif value=="phenylalanine":
+			phenylalanine(self)
+		elif value=="proline":
+			proline(self)
+		elif value=="serine":
+			serine(self)
+		elif value=="threonine":
+			threonine(self)
+		elif value=="tyrosine":
+			tyrosine(self)
+		elif value=="tryptophan":
+			tryptophan(self)
+		elif value=="valine":
+			valine(self)
+		else:
+			msg.showerror("Error","Invalid Command")
+
+	   
+
+       def ShowSequence():
+	   	val=txt_sequence.get()
+		if val=="delete all":
+			fig = Figure(figsize=(10,6), dpi=100,facecolor='black')
+       			canvas = FigureCanvasTkAgg(fig, self)
+
+       			canvas.draw()
+       			ax = fig.add_subplot(111, projection="3d")
+			 
+       			ax.axis("off")   
+
+       			toolbarFrame = Frame(self)
+       			toolbarFrame.grid(row=6,column=7)
+       			toolbar = NavigationToolbar2TkAgg(canvas, toolbarFrame)
+       			canvas.get_tk_widget().grid(row=4,column=7)
+
+		elif val=="A":
+			alanine(self)
+		elif val=="G":
+			glycine(self)
+		elif val=="R":
+			arginine(self)
+		elif val=="N":
+			asparagine(self)
+		elif val=="D":
+			aspartic_acid(self)
+		elif val=="C":
+			cysteine(self)
+		elif val=="E":
+			glutamic_acid(self)
+		elif val=="Q":
+			glutamine(self)
+		elif val=="H":
+			histidine(self)
+		elif val=="I":
+			isoleucine(self)
+		elif val=="L":
+			leucine(self)
+		elif val=="K":
+			lysine(self)
+		elif val=="M":
+			methionine(self)
+		elif val=="F":
+			phenylalanine(self)
+		elif val=="P":
+			proline(self)
+		elif val=="S":
+			serine(self)
+		elif val=="T":
+			threonine(self)
+		elif val=="Y":
+			tyrosine(self)
+		elif val=="W":
+			tryptophan(self)
+		elif val=="V":
+			valine(self)
+		elif val=="gly":
+			glycine(self)
+		elif val=="ala":
+			alanine(self)
+		elif val=="arg":
+			arginine(self)
+		elif val=="asn":
+			asparagine(self)
+		elif val=="asp":
+			aspartic_acid(self)
+		elif val=="cys":
+			cysteine(self)
+		elif val=="glu":
+			glutamic_acid(self)
+		elif val=="gln":
+			glutamine(self)
+		elif val=="his":
+			histidine(self)
+		elif val=="ile":
+			isoleucine(self)
+		elif val=="leu":
+			leucine(self)
+		elif val=="lys":
+			lysine(self)
+		elif val=="met":
+			methionine(self)
+		elif val=="phe":
+			phenylalanine(self)
+		elif val=="pro":
+			proline(self)
+		elif val=="ser":
+			serine(self)
+		elif val=="thr":
+			threonine(self)
+		elif val=="tyr":
+			tyrosine(self)
+		elif val=="trp":
+			tryptophan(self)
+		elif val=="val":
+			valine(self)
+		elif val=="GG":
+			mergerGG(self)
+		else:
+			msg.showerror("Error","Invalid Command")
+			
+       
+
+       def Help():
+			root = tk.Tk()
+			root.title("Help")
+			S = tk.Scrollbar(root)
+			T = tk.Text(root, height=45, width=90)
+			S.pack(side=tk.RIGHT, fill=tk.Y)
+			T.pack(side=tk.LEFT, expand=tk.YES, fill=tk.BOTH)
+			S.config(command=T.yview)
+			T.config(yscrollcommand=S.set)
+			quote = """Protein Structural 3D Visualizer empowers you to see Proteins and Amino Acids in 3D.To 
+test profoundly into the piece of proteins and amino acids you can see in VR utilizing 
+VR Oculus. This work area application would help bioinformatics associated individuals,
+researchers,and researchers who need profound information on proteins as they are a 
+basic piece of human life and little anomaly can lead to fatal diseases but their study
+can bring  a revolutionary change, providing cure of those diseases.
+
+It contains three dropdowns in which Display dropdown shows particles and amino acids on 
+proteins according to the picked alternative.Hide dropdown gives an edge to the user to
+shroud the showed particles or amino acids on proteins.Help dropdown contains a manual
+for the client which would assist the client with accessing Protein Structural 3D 
+Visualizer.In addition, it gives the client the achievability of zooming in and out with 
+the assistance of the correct mouse catch and cursor.Proteins and amino acids could be 
+pivoted in 3D by the left mouse button.
+				"""
+			T.insert(tk.END, quote)
+			tk.mainloop()
+
+       def Open():
+
+			plt.show("/home/atiq/Desktopafter.png")			
+       def ShowFig():
+			#figx = pickle.load(open('Figure.fig.pickle', 'rb'))
+			#figx.show()
+			#pickle.dump(fig, open('Figure.fig.pickle', 'wb'))
+			#manager = plt.get_current_fig_manager()
+			#manager.frame.Maximize(True)
+			fig.savefig("/home/atiq/Desktop/documents/wt.png")
+                        
+       			
+       def HideAtom():
+			Store_all = []
+			with open(execution_path('1rgs.cif')) as protein:
+				for lines in protein:
+					if "ATOM   " in lines:
+                    				lines = lines.split()
+                    				Store_all.append(map(float, lines[10:13])) 
+			x,y,z = zip(*Store_all)
+                        fig = Figure(figsize=(10,6), dpi=100,facecolor='black')
+                        canvas = FigureCanvasTkAgg(fig, self)
+
+      			canvas.draw()
+       			plt = fig.add_subplot(111, projection="3d")
+			plt.set_axis_bgcolor("black")
+			plt.plot(x,y,z) 
+                        #plt.show()
+			plt.axis("off")   
+
+       			toolbarFrame = Frame(self)
+       			toolbarFrame.grid(row=6,column=7)
+       			toolbar = NavigationToolbar2TkAgg(canvas, toolbarFrame)
+       			canvas.get_tk_widget().grid(row=4,column=7) 
+       def ShowAminoAcids():
+
+           		Store_a = []
+			with open(execution_path('1rgs.cif')) as protein:
+     				for lines in protein:
+					if "ATOM   " in lines:
+           					lines = lines.split()
+           					Store_a.append(map(float, lines[10:13])) 
+			a,b,c = zip(*Store_a)
+			Store = []
+			with open("/home/atiq/Downloads/1rgs.cif") as protein:
+    				for lines in protein:
+        				if "ATOM   " in lines:
+            					lines = lines.split()
+            					#ATOM   1    N N     . ARG A 1 22  ? 36.346 69.379 75.250  1.00 29.94 ? 113 ARG A N     
+            					Store.append(lines[5])
+			Store_all = []
+			with open(execution_path('1rgs.cif')) as protein:
+				for lines in protein:
+	     				if "ATOM   " in lines:
+                  				lines = lines.split()
+                  				Store_all.append(map(float, lines[10:13])) 
+			x,y,z = zip(*Store_all)
+			fig = Figure(figsize=(10,6), dpi=100,facecolor='black')
+                        canvas = FigureCanvasTkAgg(fig, self)
+
+      			canvas.draw()
+       			plt = fig.add_subplot(111, projection="3d")
+			plt.plot(a,b,c) 
+                        #plt.show()
+			plt.axis("off") 
+			ax = fig.gca(projection='3d') 
+			ax.set_axis_bgcolor("black") 
+			for Ss,xs , ys, zs in zip(Store,x,y,z):	
+      				ax.text(xs, ys, zs,Ss,color='white')
+			ax.set_xlim(0, 50)
+			ax.set_ylim(0, 50)
+			ax.set_zlim(0, 50)
+			ax.axis("off")  
+			#plt.show()
+       			toolbarFrame = Frame(self)
+       			toolbarFrame.grid(row=6,column=7)
+       			toolbar = NavigationToolbar2TkAgg(canvas, toolbarFrame)
+       			canvas.get_tk_widget().grid(row=4,column=7) 
+			
+
+
+       def ShowAtom():	
+           		Store_a = []
+			with open(execution_path('1rgs.cif')) as protein:
+     				for lines in protein:
+					if "ATOM   " in lines:
+           					lines = lines.split()
+           					Store_a.append(map(float, lines[10:13])) 
+			a,b,c = zip(*Store_a)
+			Store = []
+			with open("/home/atiq/Downloads/1rgs.cif") as protein:
+    				for lines in protein:
+        				if "ATOM   " in lines:
+            					lines = lines.split()
+            					#ATOM   1    N N     . ARG A 1 22  ? 36.346 69.379 75.250  1.00 29.94 ? 113 ARG A N     
+            					Store.append(lines[3])
+			Store_all = []
+			with open(execution_path('1rgs.cif')) as protein:
+				for lines in protein:
+	     				if "ATOM   " in lines:
+                  				lines = lines.split()
+                  				Store_all.append(map(float, lines[10:13])) 
+			x,y,z = zip(*Store_all)
+			fig = Figure(figsize=(10,6), dpi=100,facecolor='black')
+                        canvas = FigureCanvasTkAgg(fig, self)
+
+      			canvas.draw()
+       			plt = fig.add_subplot(111, projection="3d")
+			plt.plot(a,b,c) 
+                        #plt.show()
+			plt.axis("off") 
+			ax = fig.gca(projection='3d')  
+			ax.set_axis_bgcolor("black") 
+			for Ss,xs , ys, zs in zip(Store,x,y,z):	
+      				ax.text(xs, ys, zs,Ss,color='white')
+			ax.set_xlim(0, 50)
+			ax.set_ylim(0,50)
+			ax.set_zlim(0, 50)
+			ax.axis("off") 
+			#plt.show()
+       			toolbarFrame = Frame(self)
+       			toolbarFrame.grid(row=6,column=7)
+       			toolbar = NavigationToolbar2TkAgg(canvas, toolbarFrame)
+       			canvas.get_tk_widget().grid(row=4,column=7) 
+			
+
+       menubar = Menu(self)
+       self.config(menu=menubar)
+       #file_menu = Menu(menubar,tearoff=0)
+       #menubar.add_cascade(label="File",menu = file_menu)
+       #file_menu.add_command(label = "Save as")
+       #file_menu.add_command(label = "Save",command=ShowFig)
+       #file_menu.add_command(label = "Save Session")
+       #file_menu.add_command(label = "Save Session As")
+       #file_menu.add_command(label = "Open",command = Open)
+       
+
+       #edit_menu = Menu(menubar,tearoff=0)
+       #menubar.add_cascade(label="Edit",menu = edit_menu)
+       #edit_menu.add_command(label = "Undo",comman=HideAtom)
+       #edit_menu.add_command(label = "Redo")
+       
+       
+       display_menu = Menu(menubar,tearoff=0)
+       menubar.add_cascade(label="Display",menu = display_menu)
+       display_menu.add_command(label = "Cartoons")
+       display_menu.add_command(label = "Atoms",command=ShowAtom)
+       #display_menu.add_command(label = "Bonds")
+       display_menu.add_command(label = "Amino Acids",command=ShowAminoAcids)
+       #display_menu.add_command(label = "Sequence")
+
+       hide_menu = Menu(menubar,tearoff=0)
+       menubar.add_cascade(label="Hide",menu = hide_menu)
+       hide_menu.add_command(label = "Cartoons")
+       hide_menu.add_command(label = "Atoms",command=HideAtom)
+       #hide_menu.add_command(label = "Bonds")
+       hide_menu.add_command(label = "Amino Acids",command=HideAtom)
+       #hide_menu.add_command(label = "Sequence")
+
+
+       help_menu = Menu(menubar,tearoff=0)
+       menubar.add_cascade(label="Help",menu =help_menu )
+       help_menu.add_command(label="Help", command=Help)
+
+
+       label_name=Tkinter.Label(self,text="Enter Name: ")
+       label_name.grid(column=0,row=1)
+       global txt_name
+       txt_name=Tkinter.Entry(self,width=20)
+       
+       txt_name.grid(column=1,row=1)
+       value=txt_name.get()
+
+       
+       bt_name= Tkinter.Button(self,text="Search",command=ShowName)
+       bt_name.grid(column=2,row=1)
+
+       label_sequence=Tkinter.Label(self,text="Enter Sequence: ")
+       label_sequence.grid(column=0,row=2)
+       global txt_sequence
+       txt_sequence=Tkinter.Entry(self,width=20)
+       txt_sequence.grid(column=1,row=2)
+       bt_sequence= Tkinter.Button(self,text="Search",command=ShowSequence)
+       bt_sequence.grid(column=2,row=2)
+
+
+       fig = Figure(figsize=(10,6), dpi=100,facecolor='Black')
+       canvas = FigureCanvasTkAgg(fig, self)
+       canvas.draw()
+       ax = fig.add_subplot(111, projection="3d")
+       ax.set_axis_bgcolor("black")		 
+       ax.axis("off")   
+       toolbarFrame = Frame(self)
+       toolbarFrame.grid(row=6,column=7)
+       toolbar = NavigationToolbar2TkAgg(canvas, toolbarFrame)
+       canvas.get_tk_widget().grid(row=4,column=7) 
+           
+        
+   
+if __name__ == '__main__':
+    root = Root()
+    root.mainloop()
+
